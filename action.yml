@@ -12,5 +12,5 @@ inputs:
     required: false
     default: 'https://bsky.social'
 runs:
-  main: src/index.js
+  main: dist/index.js
   using: node16
