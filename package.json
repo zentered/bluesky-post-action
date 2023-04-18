@@ -1,0 +1,73 @@
+{
+  "name": "bluesky-post-action",
+  "version": "0.0.1-dev",
+  "private": false,
+  "type": "module",
+  "description": "A GitHub Action to post to Bluesky Social",
+  "keywords": [
+    "bluesky",
+    "bsky",
+    "atproto"
+  ],
+  "homepage": "https://github.com/zentered/bluesky-post-action#readme",
+  "bugs": {
+    "url": "https://github.com/zentered/bluesky-post-action/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zentered/bluesky-post-action.git"
+  },
+  "license": "MIT",
+  "author": "Zentered <hi@zentered.co> (https://zentered.co)",
+  "contributors": [
+    "Patrick Heneise (https://github.com/patrickheneise)"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/index.js -o dist --target es2022 --source-map --license licenses.txt",
+    "postinstall": "husky install",
+    "lint": "eslint .",
+    "start": "node -r dotenv/config src/index.js",
+    "test": "tap"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,md,yml}": [
+      "prettier --write"
+    ],
+    "*.js": [
+      "eslint --cache --fix"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "@atproto/api": "^0.2.7",
+    "node-fetch": "^3.3.1"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^17.6.1",
+    "@vercel/ncc": "^0.36.1",
+    "commitlint": "^17.6.1",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.38.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "tap": "^16.3.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
