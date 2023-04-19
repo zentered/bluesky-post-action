@@ -6,19 +6,31 @@ export default async function post(content, agent) {
     text: content
   })
 
+  // Automatically detect facets.
   await rt.detectFacets(agent)
+
+  // https://github.com/bluesky-social/atproto/issues/834#issuecomment-1514046354
+  // Filter out any facets with features
+  // that have no value set value.
+  let facets = null
+
+  if (rt.facets) {
+    facets = rt.facets.filter((facet) => {
+      const features = facet.features.filter(
+        (feature) =>
+          (feature?.uri && feature?.uri !== '') ||
+          (feature?.did && feature?.did !== '')
+      )
+
+      return features.length > 0
+    })
+  }
 
   const postRecord = {
     $type: 'app.bsky.feed.post',
     text: rt.text,
-    createdAt: new Date().toJSON()
-  }
-
-  if (rt.facets) {
-    // a plaintext message does not have facets
-    // HACK: there seems to be an issue with rt.detectFacets()
-    rt.facets[0].features[0].did = agent.session.did
-    postRecord.facets = rt.facets
+    ...(facets && { facets }),
+    createdAt: new Date().toISOString()
   }
 
   return postRecord
