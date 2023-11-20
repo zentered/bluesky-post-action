@@ -12,15 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: latest
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
       - uses: ./
         with:
           post: ${{ inputs.post }}

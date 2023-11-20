@@ -2,7 +2,6 @@
   "name": "bluesky-post-action",
   "version": "0.0.1-dev",
   "private": false,
-  "type": "module",
   "description": "A GitHub Action to post to Bluesky Social",
   "keywords": [
     "bluesky",
@@ -22,13 +21,14 @@
   "contributors": [
     "Patrick Heneise (https://github.com/patrickheneise)"
   ],
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.js -o dist --target es2022 --source-map --license licenses.txt",
     "postinstall": "husky install",
     "lint": "eslint .",
-    "start": "node -r dotenv/config src/index.js",
-    "test": "tap"
+    "start": "node src/index.js",
+    "test": "node --test"
   },
   "commitlint": {
     "extends": [
@@ -49,25 +49,23 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1",
-    "@atproto/api": "^0.2.7",
-    "node-fetch": "^3.3.1"
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@atproto/api": "^0.6.23",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.6.1",
-    "@vercel/ncc": "^0.36.1",
-    "commitlint": "^17.6.1",
-    "dotenv": "^16.0.3",
-    "eslint": "^8.38.0",
-    "eslint-plugin-markdown": "^3.0.0",
+    "@commitlint/config-conventional": "^18.4.2",
+    "@vercel/ncc": "^0.38.1",
+    "commitlint": "^18.4.2",
+    "eslint": "^8.54.0",
+    "eslint-plugin-markdown": "^3.0.1",
     "eslint-plugin-node": "^11.1.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.1",
-    "prettier": "^2.8.7",
-    "tap": "^16.3.4"
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20"
   }
 }

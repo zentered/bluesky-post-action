@@ -1,13 +1,14 @@
-import tap from 'tap'
+import test from 'node:test'
+import assert from 'node:assert'
 import post from '../src/post.js'
 
-tap.test('post', async (t) => {
+test('post', async () => {
   const expected = {
     $type: 'app.bsky.feed.post',
     text: 'Hello World'
   }
   const actual = await post('Hello World', {})
-  t.equal(actual['$type'], expected['$type'])
-  t.equal(actual.text, expected.text)
-  t.ok(actual.createdAt)
+  assert.equal(actual['$type'], expected['$type'])
+  assert.equal(actual.text, expected.text)
+  assert.ok(actual.createdAt)
 })
