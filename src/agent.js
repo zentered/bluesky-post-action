@@ -1,25 +1,7 @@
-import nodeFetch from 'node-fetch'
-import pkg from '@atproto/api'
-const { BskyAgent } = pkg
+import { AtpAgent } from '@atproto/api'
 
 export default async function bsky(service) {
-  BskyAgent.configure({
-    // fetch polyfill
-    async fetch(httpUri, httpMethod, httpHeaders, httpReqBody) {
-      const res = await nodeFetch(httpUri, {
-        method: httpMethod,
-        headers: httpHeaders,
-        body: JSON.stringify(httpReqBody)
-      })
-      const response = {
-        status: res.status,
-        body: await res.json()
-      }
-      return response
-    }
-  })
-
-  const agent = new BskyAgent({
+  const agent = new AtpAgent({
     service: service
   })
 
