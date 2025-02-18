@@ -28,7 +28,8 @@
     "postinstall": "husky install",
     "lint": "eslint .",
     "start": "node src/index.js",
-    "test": "node --test"
+    "test": "node --test",
+    "prepare": "husky"
   },
   "commitlint": {
     "extends": [
@@ -49,21 +50,22 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.1",
+    "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
-    "@atproto/api": "^0.6.23",
+    "@atproto/api": "^0.14.1",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^18.4.2",
-    "@vercel/ncc": "^0.38.1",
-    "commitlint": "^18.4.2",
-    "eslint": "^8.54.0",
-    "eslint-plugin-markdown": "^3.0.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "@vercel/ncc": "^0.38.3",
+    "commitlint": "^19.7.1",
+    "eslint": "^9.20.1",
+    "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
-    "prettier": "^3.1.0"
+    "globals": "^15.15.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.1"
   },
   "engines": {
     "node": ">=20"

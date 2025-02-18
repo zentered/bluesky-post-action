@@ -1,5 +1,4 @@
-import pkg from '@atproto/api'
-const { AppBskyFeedPost } = pkg
+import { AppBskyFeedPost } from '@atproto/api'
 
 export default async function validate(bskyPost) {
   if (AppBskyFeedPost.isRecord(bskyPost)) {
