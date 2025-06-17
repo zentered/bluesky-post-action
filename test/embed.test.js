@@ -22,7 +22,10 @@ test('fetchEmbedUrlCard returns null for invalid URL', async () => {
 })
 
 test('fetchEmbedUrlCard handles fetch errors gracefully', async () => {
-  const result = await fetchEmbedUrlCard('https://nonexistent-domain-12345.com', mockAgent)
+  const result = await fetchEmbedUrlCard(
+    'https://nonexistent-domain-12345.com',
+    mockAgent
+  )
   assert.equal(result, null)
 })
 

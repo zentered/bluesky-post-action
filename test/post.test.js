@@ -19,7 +19,7 @@ test('post', async () => {
 test('post with URL attempts to create embed', async () => {
   const content = 'Check out https://example.com'
   const actual = await post(content, agent)
-  
+
   assert.equal(actual['$type'], 'app.bsky.feed.post')
   assert.equal(actual.text, content)
   assert.ok(actual.createdAt)
@@ -30,7 +30,7 @@ test('post with URL attempts to create embed', async () => {
 test('post without URL has no embed', async () => {
   const content = 'Just a regular post without links'
   const actual = await post(content, agent)
-  
+
   assert.equal(actual['$type'], 'app.bsky.feed.post')
   assert.equal(actual.text, content)
   assert.ok(actual.createdAt)

@@ -2097,15 +2097,15 @@
       }
       function cloneCallSite(e) {
         var r = {}
-        Object.getOwnPropertyNames(Object.getPrototypeOf(e)).forEach(function (
-          n
-        ) {
-          r[n] = /^(?:is|get)/.test(n)
-            ? function () {
-                return e[n].call(e)
-              }
-            : e[n]
-        })
+        Object.getOwnPropertyNames(Object.getPrototypeOf(e)).forEach(
+          function (n) {
+            r[n] = /^(?:is|get)/.test(n)
+              ? function () {
+                  return e[n].call(e)
+                }
+              : e[n]
+          }
+        )
         r.toString = CallSiteToString
         return r
       }

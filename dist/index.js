@@ -77310,7 +77310,6 @@ __nccwpck_require__.d(__webpack_exports__, {
 // EXTERNAL MODULE: ./node_modules/@atproto/api/dist/index.js
 var dist = __nccwpck_require__(6523);
 ;// CONCATENATED MODULE: ./src/embed.js
-
 /**
  * Extracts Open Graph metadata from HTML content
  * @param {string} html - The HTML content to parse
@@ -77324,19 +77323,25 @@ function parseMetadata(html) {
   }
 
   // Extract og:title
-  const titleMatch = html.match(/<meta[^>]*property="og:title"[^>]*content="([^"]*)"[^>]*>/i)
+  const titleMatch = html.match(
+    /<meta[^>]*property="og:title"[^>]*content="([^"]*)"[^>]*>/i
+  )
   if (titleMatch) {
     metadata.title = titleMatch[1]
   }
 
   // Extract og:description
-  const descMatch = html.match(/<meta[^>]*property="og:description"[^>]*content="([^"]*)"[^>]*>/i)
+  const descMatch = html.match(
+    /<meta[^>]*property="og:description"[^>]*content="([^"]*)"[^>]*>/i
+  )
   if (descMatch) {
     metadata.description = descMatch[1]
   }
 
   // Extract og:image
-  const imageMatch = html.match(/<meta[^>]*property="og:image"[^>]*content="([^"]*)"[^>]*>/i)
+  const imageMatch = html.match(
+    /<meta[^>]*property="og:image"[^>]*content="([^"]*)"[^>]*>/i
+  )
   if (imageMatch) {
     metadata.image = imageMatch[1]
   }
@@ -77359,7 +77364,7 @@ async function uploadImageBlob(url, agent) {
     if (!contentType || !contentType.startsWith('image/')) return null
 
     const imageData = await response.arrayBuffer()
-    
+
     // Size limit check (1MB as per AT Protocol)
     if (imageData.byteLength > 1000000) return null
 
@@ -77388,7 +77393,7 @@ async function fetchEmbedUrlCard(url, agent) {
         'User-Agent': 'bluesky-post-action/1.0'
       }
     })
-    
+
     if (!response.ok) return null
 
     const html = await response.text()
@@ -77404,10 +77409,10 @@ async function fetchEmbedUrlCard(url, agent) {
     // Upload thumbnail if available
     if (metadata.image) {
       // Handle relative URLs
-      const imageUrl = metadata.image.startsWith('http') 
-        ? metadata.image 
+      const imageUrl = metadata.image.startsWith('http')
+        ? metadata.image
         : new URL(metadata.image, url).toString()
-      
+
       const thumb = await uploadImageBlob(imageUrl, agent)
       if (thumb) {
         card.thumb = thumb
@@ -77423,6 +77428,7 @@ async function fetchEmbedUrlCard(url, agent) {
     return null
   }
 }
+
 ;// CONCATENATED MODULE: ./src/post.js
 
 
@@ -77433,14 +77439,15 @@ async function fetchEmbedUrlCard(url, agent) {
  * @returns {Array<string>} Array of URLs found in the text
  */
 function extractUrls(text) {
-  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*[-a-zA-Z0-9@%_+~#//=])?/g
+  const urlRegex =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*[-a-zA-Z0-9@%_+~#//=])?/g
   const urls = []
   let match
-  
+
   while ((match = urlRegex.exec(text)) !== null) {
     urls.push(match[0])
   }
-  
+
   return urls
 }
 

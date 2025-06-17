@@ -7,14 +7,15 @@ import { fetchEmbedUrlCard } from './embed.js'
  * @returns {Array<string>} Array of URLs found in the text
  */
 function extractUrls(text) {
-  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*[-a-zA-Z0-9@%_+~#//=])?/g
+  const urlRegex =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*[-a-zA-Z0-9@%_+~#//=])?/g
   const urls = []
   let match
-  
+
   while ((match = urlRegex.exec(text)) !== null) {
     urls.push(match[0])
   }
-  
+
   return urls
 }
 
