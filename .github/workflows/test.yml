@@ -1,11 +1,13 @@
-name: Post on Bluesky Social
+name: test
 
 on:
-  workflow_dispatch:
-    inputs:
-      post:
-        type: string
-        required: true
+  push:
+    branches:
+      - '**'
+      - '!main'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   bsky-post:
@@ -14,14 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
       - run: npm ci
       - run: npm test
-      - run: npm run build
-      - uses: ./
-        with:
-          post: ${{ inputs.post }}
-        env:
-          BSKY_IDENTIFIER: ${{ secrets.BSKY_IDENTIFIER }}
-          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}

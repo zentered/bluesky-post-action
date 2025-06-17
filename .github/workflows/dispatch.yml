@@ -1,0 +1,28 @@
+name: Post on Bluesky Social
+
+on:
+  workflow_dispatch:
+    inputs:
+      post:
+        description: 'Content to post on Bluesky Social'
+        type: string
+        required: true
+
+jobs:
+  bsky-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - uses: ./
+        with:
+          post: ${{ inputs.post }}
+        env:
+          BSKY_IDENTIFIER: ${{ secrets.BSKY_IDENTIFIER }}
+          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
