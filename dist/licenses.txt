@@ -63,7 +63,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 MIT
 Dual MIT/Apache-2.0 License
 
-Copyright (c) 2022-2024 Bluesky PBC, and Contributors
+Copyright (c) 2022-2025 Bluesky Social PBC, and Contributors
 
 Except as otherwise noted in individual files, this software is licensed under the MIT license (<http://opensource.org/licenses/MIT>), or the Apache License, Version 2.0 (<http://www.apache.org/licenses/LICENSE-2.0>).
 
@@ -74,7 +74,7 @@ Downstream projects and end users may chose either license individually, or both
 MIT
 Dual MIT/Apache-2.0 License
 
-Copyright (c) 2022-2024 Bluesky PBC, and Contributors
+Copyright (c) 2022-2025 Bluesky PBC, and Contributors
 
 Except as otherwise noted in individual files, this software is licensed under the MIT license (<http://opensource.org/licenses/MIT>), or the Apache License, Version 2.0 (<http://www.apache.org/licenses/LICENSE-2.0>).
 
@@ -85,7 +85,7 @@ Downstream projects and end users may chose either license individually, or both
 MIT
 Dual MIT/Apache-2.0 License
 
-Copyright (c) 2022-2024 Bluesky PBC, and Contributors
+Copyright (c) 2022-2025 Bluesky PBC, and Contributors
 
 Except as otherwise noted in individual files, this software is licensed under the MIT license (<http://opensource.org/licenses/MIT>), or the Apache License, Version 2.0 (<http://www.apache.org/licenses/LICENSE-2.0>).
 
@@ -96,7 +96,7 @@ Downstream projects and end users may chose either license individually, or both
 MIT
 Dual MIT/Apache-2.0 License
 
-Copyright (c) 2022-2024 Bluesky PBC, and Contributors
+Copyright (c) 2022-2025 Bluesky PBC, and Contributors
 
 Except as otherwise noted in individual files, this software is licensed under the MIT license (<http://opensource.org/licenses/MIT>), or the Apache License, Version 2.0 (<http://www.apache.org/licenses/LICENSE-2.0>).
 
@@ -107,7 +107,7 @@ Downstream projects and end users may chose either license individually, or both
 MIT
 Dual MIT/Apache-2.0 License
 
-Copyright (c) 2022-2024 Bluesky PBC, and Contributors
+Copyright (c) 2022-2025 Bluesky PBC, and Contributors
 
 Except as otherwise noted in individual files, this software is licensed under the MIT license (<http://opensource.org/licenses/MIT>), or the Apache License, Version 2.0 (<http://www.apache.org/licenses/LICENSE-2.0>).
 
@@ -307,7 +307,7 @@ zod
 MIT
 MIT License
 
-Copyright (c) 2020 Colin McDonnell
+Copyright (c) 2025 Colin McDonnell
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
