@@ -81425,7 +81425,7 @@ async function bsky(service) {
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(37484);
 /* harmony import */ var _agent_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(24159);
-/* harmony import */ var _post_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(87310);
+/* harmony import */ var _post_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(4192);
 /* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(1838);
 
 
@@ -81457,17 +81457,161 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 87310:
+/***/ 4192:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   A: () => (/* binding */ post)
-/* harmony export */ });
-/* harmony import */ var _atproto_api__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(56523);
 
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  A: () => (/* binding */ post)
+});
+
+// EXTERNAL MODULE: ./node_modules/@atproto/api/dist/index.js
+var dist = __nccwpck_require__(56523);
+;// CONCATENATED MODULE: ./src/embed.js
+/**
+ * Extracts Open Graph metadata from HTML content
+ * @param {string} html - The HTML content to parse
+ * @returns {Object} Object containing title, description, and image metadata
+ */
+function parseMetadata(html) {
+  const metadata = {
+    title: '',
+    description: '',
+    image: null
+  }
+
+  // Extract og:title
+  const titleMatch = html.match(
+    /<meta[^>]*property="og:title"[^>]*content="([^"]*)"[^>]*>/i
+  )
+  if (titleMatch) {
+    metadata.title = titleMatch[1]
+  }
+
+  // Extract og:description
+  const descMatch = html.match(
+    /<meta[^>]*property="og:description"[^>]*content="([^"]*)"[^>]*>/i
+  )
+  if (descMatch) {
+    metadata.description = descMatch[1]
+  }
+
+  // Extract og:image
+  const imageMatch = html.match(
+    /<meta[^>]*property="og:image"[^>]*content="([^"]*)"[^>]*>/i
+  )
+  if (imageMatch) {
+    metadata.image = imageMatch[1]
+  }
+
+  return metadata
+}
+
+/**
+ * Uploads a blob to AT Protocol and returns the blob reference
+ * @param {string} url - The image URL to upload
+ * @param {Object} agent - The AT Protocol agent
+ * @returns {Promise<Object|null>} The blob reference or null if upload fails
+ */
+async function uploadImageBlob(url, agent) {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) return null
+
+    const contentType = response.headers.get('content-type')
+    if (!contentType || !contentType.startsWith('image/')) return null
+
+    const imageData = await response.arrayBuffer()
+
+    // Size limit check (1MB as per AT Protocol)
+    if (imageData.byteLength > 1000000) return null
+
+    const uploadResponse = await agent.uploadBlob(imageData, {
+      encoding: contentType
+    })
+
+    return uploadResponse.data.blob
+  } catch (error) {
+    console.warn('Failed to upload image blob:', error.message)
+    return null
+  }
+}
+
+/**
+ * Fetches website metadata and creates an external embed card
+ * @param {string} url - The URL to fetch metadata for
+ * @param {Object} agent - The AT Protocol agent
+ * @returns {Promise<Object|null>} The embed object or null if fetching fails
+ */
+async function fetchEmbedUrlCard(url, agent) {
+  try {
+    // Fetch the HTML content
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'bluesky-post-action/1.0'
+      }
+    })
+
+    if (!response.ok) return null
+
+    const html = await response.text()
+    const metadata = parseMetadata(html)
+
+    // Build the card with required fields
+    const card = {
+      uri: url,
+      title: metadata.title || '',
+      description: metadata.description || ''
+    }
+
+    // Upload thumbnail if available
+    if (metadata.image) {
+      // Handle relative URLs
+      const imageUrl = metadata.image.startsWith('http')
+        ? metadata.image
+        : new URL(metadata.image, url).toString()
+
+      const thumb = await uploadImageBlob(imageUrl, agent)
+      if (thumb) {
+        card.thumb = thumb
+      }
+    }
+
+    return {
+      $type: 'app.bsky.embed.external',
+      external: card
+    }
+  } catch (error) {
+    console.warn('Failed to fetch embed card for URL:', url, error.message)
+    return null
+  }
+}
+
+;// CONCATENATED MODULE: ./src/post.js
+
+
+
+/**
+ * Extracts URLs from the post text using the same regex pattern as RichText
+ * @param {string} text - The post text
+ * @returns {Array<string>} Array of URLs found in the text
+ */
+function extractUrls(text) {
+  const urlRegex =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*[-a-zA-Z0-9@%_+~#//=])?/g
+  const urls = []
+  let match
+
+  while ((match = urlRegex.exec(text)) !== null) {
+    urls.push(match[0])
+  }
+
+  return urls
+}
 
 async function post(content, agent) {
-  const rt = new _atproto_api__WEBPACK_IMPORTED_MODULE_0__.RichText({
+  const rt = new dist.RichText({
     text: content
   })
 
@@ -81479,6 +81623,15 @@ async function post(content, agent) {
     text: rt.text,
     facets: rt.facets,
     createdAt: new Date().toISOString()
+  }
+
+  // Check for URLs and create website card embed for the first URL found
+  const urls = extractUrls(content)
+  if (urls.length > 0) {
+    const embed = await fetchEmbedUrlCard(urls[0], agent)
+    if (embed) {
+      postRecord.embed = embed
+    }
   }
 
   return postRecord
