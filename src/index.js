@@ -12,8 +12,25 @@ const validation = await validate(bskyPost)
 
 if (validation.success) {
   try {
-    await bskyAgent.post(bskyPost)
+    const response = await bskyAgent.post(bskyPost)
+    
     core.info('Post successful')
+    core.info(`Post URI: ${response.uri}`)
+    core.info(`Post CID: ${response.cid}`)
+    
+    // Set outputs for GitHub Actions
+    core.setOutput('uri', response.uri)
+    core.setOutput('cid', response.cid)
+    
+    // Extract username from the identifier for URL construction
+    const identifier = process.env.BSKY_IDENTIFIER || ''
+    const username = identifier.startsWith('@') ? identifier.slice(1) : identifier
+    const postId = response.uri.split('/').pop()
+    const url = `https://bsky.app/profile/${username}/post/${postId}`
+    
+    core.setOutput('url', url)
+    core.info(`Post URL: ${url}`)
+    
   } catch (error) {
     core.error(error)
     core.setFailed(error)

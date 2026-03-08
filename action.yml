@@ -11,6 +11,13 @@ inputs:
     description: at-proto service
     required: false
     default: 'https://bsky.social'
+outputs:
+  uri:
+    description: 'The AT Protocol URI of the created post'
+  cid:
+    description: 'The content identifier (CID) of the created post'
+  url:
+    description: 'The human-readable Bluesky URL of the created post'
 runs:
   main: dist/index.js
   using: node20
