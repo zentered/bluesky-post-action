@@ -20,4 +20,4 @@ outputs:
     description: 'The human-readable Bluesky URL of the created post'
 runs:
   main: dist/index.js
-  using: node20
+  using: node24
