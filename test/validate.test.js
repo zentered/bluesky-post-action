@@ -21,3 +21,21 @@ test('post', async () => {
   assert.equal(actual.success, expected.success)
   assert.equal(actual.value['$type'], expected.value['$type'])
 })
+
+test('non-record fails with a message', async () => {
+  const actual = await validate({ text: 'Hello World' })
+  assert.deepEqual(actual, {
+    success: false,
+    error: 'post is not a valid app.bsky.feed.post record'
+  })
+})
+
+test('invalid record fails with a message', async () => {
+  const actual = await validate({
+    $type: 'app.bsky.feed.post',
+    createdAt: '2023-11-20T17:41:29.635Z'
+  })
+  assert.equal(actual.success, false)
+  assert.equal(typeof actual.error, 'string')
+  assert.match(actual.error, /text/)
+})
