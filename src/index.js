@@ -36,6 +36,6 @@ if (validation.success) {
     core.setFailed(error)
   }
 } else {
-  core.error(validation)
-  core.setFailed(validation)
+  core.error(validation.error)
+  core.setFailed(validation.error)
 }

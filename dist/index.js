@@ -88736,8 +88736,8 @@ if (validation.success) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error)
   }
 } else {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error(validation)
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(validation)
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error(validation.error)
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(validation.error)
 }
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
@@ -88937,13 +88937,18 @@ async function post(content, agent) {
 
 
 async function validate(bskyPost) {
-  if (_atproto_api__WEBPACK_IMPORTED_MODULE_0__/* .AppBskyFeedPost.isRecord */ .tKr.isRecord(bskyPost)) {
-    const res = _atproto_api__WEBPACK_IMPORTED_MODULE_0__/* .AppBskyFeedPost.validateRecord */ .tKr.validateRecord(bskyPost)
-    if (res.error) {
-      return res.error
+  if (!_atproto_api__WEBPACK_IMPORTED_MODULE_0__/* .AppBskyFeedPost.isRecord */ .tKr.isRecord(bskyPost)) {
+    return {
+      success: false,
+      error: 'post is not a valid app.bsky.feed.post record'
     }
-    return res
   }
+
+  const res = _atproto_api__WEBPACK_IMPORTED_MODULE_0__/* .AppBskyFeedPost.validateRecord */ .tKr.validateRecord(bskyPost)
+  if (!res.success) {
+    return { success: false, error: res.error.message }
+  }
+  return { success: true, value: res.value }
 }
 
 
